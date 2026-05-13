@@ -1,0 +1,36 @@
+//====================== REGISTER FILE ======================
+module register_file(
+    input clk,
+    input rst,
+    input reg_write,
+    input [1:0] read_reg1,
+    input [1:0] read_reg2,
+    input [1:0] write_reg,
+    input [3:0] write_data,
+    output [3:0] read_data1,
+    output [3:0] read_data2
+);
+
+reg [3:0] registers [0:3];
+
+integer i;
+
+always @(posedge clk or posedge rst) begin
+
+    if(rst) begin
+        registers[0] <= 4'b0011; // 3
+        registers[1] <= 4'b0001; // 1
+        registers[2] <= 4'b0000;
+        registers[3] <= 4'b0000;
+    end
+
+    else if(reg_write) begin
+        registers[write_reg] <= write_data;
+    end
+
+end
+
+assign read_data1 = registers[read_reg1];
+assign read_data2 = registers[read_reg2];
+
+endmodule
