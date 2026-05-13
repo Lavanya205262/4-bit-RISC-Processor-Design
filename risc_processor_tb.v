@@ -1,0 +1,107 @@
+//====================== TESTBENCH ======================
+`timescale 1ns/1ps
+
+module tb_risc_processor;
+
+reg clk;
+reg rst;
+
+reg [2:0] opcode;
+reg [1:0] rs1;
+reg [1:0] rs2;
+reg [1:0] rd;
+
+wire [3:0] result;
+
+
+// DUT
+risc_processor uut(
+    .clk(clk),
+    .rst(rst),
+    .opcode(opcode),
+    .rs1(rs1),
+    .rs2(rs2),
+    .rd(rd),
+    .result(result)
+);
+
+
+// CLOCK
+always #5 clk = ~clk;
+
+
+initial begin
+
+    clk = 0;
+    rst = 1;
+
+    opcode = 3'b000;
+    rs1 = 2'b00;
+    rs2 = 2'b01;
+    rd  = 2'b10;
+
+    #10;
+    rst = 0;
+
+    //================ ADD =================
+    // R0 = 3 , R1 = 1
+    // 3 + 1 = 4
+
+    opcode = 3'b000;
+
+    #10;
+
+    //================ SUB =================
+    // 3 - 1 = 2
+
+    opcode = 3'b001;
+
+    #10;
+
+    //================ AND =================
+    // 3 & 1 = 1
+
+    opcode = 3'b010;
+
+    #10;
+
+    //================ OR =================
+    // 3 | 1 = 3
+
+    opcode = 3'b011;
+
+    #10;
+
+    //================ XOR =================
+    // 3 ^ 1 = 2
+
+    opcode = 3'b100;
+
+    #10;
+
+    //================ NOT =================
+    // ~3 = 1100
+
+    opcode = 3'b101;
+
+    #10;
+
+    //================ SHIFT LEFT =================
+    // 3 << 1 = 6
+
+    opcode = 3'b110;
+
+    #10;
+
+    //================ SHIFT RIGHT =================
+    // 3 >> 1 = 1
+
+    opcode = 3'b111;
+
+    #20;
+
+    $stop;
+
+end
+
+endmodule
